@@ -97,7 +97,7 @@ class CarState(CarStateBase):
 
       distance_val = int(cp.vl["PCM_CRUISE_2"]['PCM_FOLLOW_DISTANCE'])
       #ret.cruiseState.setDistance = self.parse_set_distance(self.set_distance_values.get(distance_val, None))
-      ret.cruiseState.setDistance = car.CarState.CruiseState.SetDistance.normal
+      ret.cruiseState.setDistance = car.CarState.CruiseState.SetDistance.chill
 
     if self.CP.carFingerprint in RADAR_ACC_CAR:
       self.acc_type = cp.vl["ACC_CONTROL"]["ACC_TYPE"]
