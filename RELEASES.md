@@ -1,3 +1,7 @@
+Version 7-Special  (2022-10-06)
+=========================
+ * x50 fixes
+
 Version 5-longOverhaul  (2022-08-15)
 =========================
  * bukapilot speed display matches stock speedometer
