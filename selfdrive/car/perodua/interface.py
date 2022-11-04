@@ -64,7 +64,8 @@ class CarInterface(CarInterfaceBase):
       ret.mass = 1015. + STD_CARGO_KG
       ret.wheelSpeedFactor = 1.22
 
-      ret.lateralTuning.pid.kf = 0.0000917
+      ret.lateralTuning.pid.kf = 0.000091
+      ret.longitudinalTuning.kpV = [1.0, 1.2, 1.4]
 
       f = Features()
       if f.has("MyviAzri"):
