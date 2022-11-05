@@ -62,7 +62,7 @@ class CarInterface(CarInterfaceBase):
       ret.centerToFront = ret.wheelbase * 0.44
       tire_stiffness_factor = 0.8371
       ret.mass = 1015. + STD_CARGO_KG
-      ret.wheelSpeedFactor = 1.22
+      ret.wheelSpeedFactor = 0.94
 
       ret.lateralTuning.pid.kf = 0.000091
       ret.longitudinalTuning.kpV = [1.0, 1.2, 1.4]
