@@ -75,7 +75,8 @@ class CarInterface(CarInterfaceBase):
         ret.lateralTuning.pid.kiV, ret.lateralTuning.pid.kpV = [[0.10], [0.32]]
         ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[11, 28], [390, 650]]
       else:
-        ret.lateralTuning.pid.kiV, ret.lateralTuning.pid.kpV = [[0.10], [0.28]]
+        ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0., 25]]
+        ret.lateralTuning.pid.kiV, ret.lateralTuning.pid.kpV = [[0.10], [0.25, 0.32]]
         ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[11, 28], [390, 580]]
 
     elif candidate == CAR.BEZZA:
