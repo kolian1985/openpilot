@@ -1,3 +1,7 @@
+Version 8-SpecialAlza (2022-11-01)
+=========================
+ * Supported Perodua Alza
+
 Version 5-longOverhaul  (2022-08-15)
 =========================
  * bukapilot speed display matches stock speedometer
