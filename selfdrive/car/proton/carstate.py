@@ -9,6 +9,8 @@ from selfdrive.car.interfaces import CarStateBase
 from selfdrive.car.proton.values import DBC, CAR, HUD_MULTIPLIER
 from time import time
 
+from common.features import Features
+
 class CarState(CarStateBase):
   def __init__(self, CP):
     super().__init__(CP)
@@ -20,6 +22,9 @@ class CarState(CarStateBase):
     self.hand_on_wheel_warning = False
     self.is_icc_on = False
     self.prev_angle = 0
+
+    f = Features()
+    self.mads = f.has("StockAcc")
 
   def update(self, cp):
     ret = car.CarState.new_message()
@@ -85,11 +90,15 @@ class CarState(CarStateBase):
     ret.cruiseState.setDistance = self.parse_set_distance(self.set_distance_values.get(distance_val, None))
 
     # engage and disengage logic
-    if cp.vl["PCM_BUTTONS"]["ACC_SET"] != 0 and not ret.brakePressed:
-      self.is_cruise_latch = True
+    if self.mads:
+      self.is_cruise_latch = ret.cruiseState.available
 
-    if cp.vl["PCM_BUTTONS"]["ACC_SET"] == 0 and ret.brakePressed:
-      self.is_cruise_latch = False
+    else:
+      if cp.vl["PCM_BUTTONS"]["ACC_SET"] != 0 and not ret.brakePressed:
+        self.is_cruise_latch = True
+
+      if cp.vl["PCM_BUTTONS"]["ACC_SET"] == 0 and ret.brakePressed:
+        self.is_cruise_latch = False
 
     # set speed in range of 30 - 130kmh only
     self.cruise_speed = int(cp.vl["PCM_BUTTONS"]['ACC_SET_SPEED']) * CV.KPH_TO_MS
@@ -98,10 +107,11 @@ class CarState(CarStateBase):
     ret.cruiseState.standstill = bool(cp.vl["ACC_CMD"]["STANDSTILL2"])
     ret.cruiseState.nonAdaptive = False
 
-    if not ret.cruiseState.available:
-      self.is_cruise_latch = False
-    if ret.brakePressed or (not self.acc_req and not ret.cruiseState.standstill):
-      self.is_cruise_latch = False
+    if not self.mads:
+      if not ret.cruiseState.available:
+        self.is_cruise_latch = False
+      if ret.brakePressed or (not self.acc_req and not ret.cruiseState.standstill):
+        self.is_cruise_latch = False
 
     ret.cruiseState.enabled = self.is_cruise_latch
 
