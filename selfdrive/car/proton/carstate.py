@@ -92,13 +92,12 @@ class CarState(CarStateBase):
     # engage and disengage logic
     if self.mads:
       self.is_cruise_latch = ret.cruiseState.available
-
     else:
-      if cp.vl["PCM_BUTTONS"]["ACC_SET"] != 0 and not ret.brakePressed:
-        self.is_cruise_latch = True
+       if cp.vl["PCM_BUTTONS"]["ACC_SET"] == 0 and ret.brakePressed:
+         self.is_cruise_latch = False
 
-      if cp.vl["PCM_BUTTONS"]["ACC_SET"] == 0 and ret.brakePressed:
-        self.is_cruise_latch = False
+    if cp.vl["PCM_BUTTONS"]["ACC_SET"] != 0 and not ret.brakePressed:
+      self.is_cruise_latch = True
 
     # set speed in range of 30 - 130kmh only
     self.cruise_speed = int(cp.vl["PCM_BUTTONS"]['ACC_SET_SPEED']) * CV.KPH_TO_MS
@@ -107,9 +106,10 @@ class CarState(CarStateBase):
     ret.cruiseState.standstill = bool(cp.vl["ACC_CMD"]["STANDSTILL2"])
     ret.cruiseState.nonAdaptive = False
 
+    if not ret.cruiseState.available:
+      self.is_cruise_latch = False
+
     if not self.mads:
-      if not ret.cruiseState.available:
-        self.is_cruise_latch = False
       if ret.brakePressed or (not self.acc_req and not ret.cruiseState.standstill):
         self.is_cruise_latch = False
 
