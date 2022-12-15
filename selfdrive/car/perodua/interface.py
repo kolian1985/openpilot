@@ -77,7 +77,7 @@ class CarInterface(CarInterfaceBase):
       else:
         ret.lateralTuning.pid.kiBP, ret.lateralTuning.pid.kpBP = [[0.], [0., 18]]
         ret.lateralTuning.pid.kiV, ret.lateralTuning.pid.kpV = [[0.10], [0.31, 0.32]]
-        ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[11, 28], [390, 580]]
+        ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[11, 28], [390, 565]]
 
     elif candidate == CAR.BEZZA:
       ret.wheelbase = 2.455
@@ -170,7 +170,7 @@ class CarInterface(CarInterfaceBase):
       ret.stoppingDecelRate = 0.005 # reach stopping target smoothly
     else:
       ret.longitudinalTuning.kiBP = [0.]
-      ret.longitudinalTuning.kiV = [0.5]
+      ret.longitudinalTuning.kiV = [0.6]
 
     ret.rotationalInertia = scale_rot_inertia(ret.mass, ret.wheelbase)
     ret.tireStiffnessFront, ret.tireStiffnessRear = scale_tire_stiffness(ret.mass, ret.wheelbase, ret.centerToFront, tire_stiffness_factor=tire_stiffness_factor)
