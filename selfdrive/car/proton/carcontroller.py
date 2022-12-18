@@ -9,6 +9,8 @@ from common.realtime import DT_CTRL
 from common.params import Params
 import cereal.messaging as messaging
 
+from common.features import Features
+
 def apply_proton_steer_torque_limits(apply_torque, apply_torque_last, driver_torque, LIMITS):
 
   # limits due to driver torque
@@ -49,6 +51,9 @@ class CarController():
     self.disable_radar = Params().get_bool("DisableRadar")
     self.num_cruise_btn_sent = 0
 
+    f = Features()
+    self.mads = f.has("StockAcc")
+
   def update(self, enabled, CS, frame, actuators, lead_visible, rlane_visible, llane_visible, pcm_cancel, ldw):
     can_sends = []
 
@@ -83,7 +88,8 @@ class CarController():
 
     if CS.out.standstill and enabled and (frame % 50 == 0):
       # Spam resume button to resume from standstill at max freq of 10 Hz.
-      can_sends.append(send_buttons(self.packer, frame % 16, False))
+      if not self.mads:
+        can_sends.append(send_buttons(self.packer, frame % 16, False))
 
     self.last_steer = apply_steer
     new_actuators = actuators.copy()
