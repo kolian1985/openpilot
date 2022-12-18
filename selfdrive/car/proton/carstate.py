@@ -63,7 +63,10 @@ class CarState(CarStateBase):
 
     # brake pedal
     ret.brake = cp.vl["BRAKE"]['BRAKE_PRESSURE']
-    ret.brakePressed = bool(cp.vl["PARKING_BRAKE"]["BRAKE_PRESSED"])
+    if self.mads:
+      ret.brakePressed = False
+    else:
+      ret.brakePressed = bool(cp.vl["PARKING_BRAKE"]["BRAKE_PRESSED"])
 
     # steer
     ret.steeringAngleDeg = cp.vl["STEERING_MODULE"]['STEER_ANGLE']
