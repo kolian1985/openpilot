@@ -145,7 +145,7 @@ class CarInterface(CarInterfaceBase):
       ret.centerToFront = ret.wheelbase * 0.44
       tire_stiffness_factor = 0.9871
       ret.mass = 1170. + STD_CARGO_KG
-      ret.wheelSpeedFactor = 1.42
+      ret.wheelSpeedFactor = 1.425
 
       ret.lateralTuning.pid.kiV, ret.lateralTuning.pid.kpV = [[0.13], [0.23]]
       ret.lateralParams.torqueBP, ret.lateralParams.torqueV = [[0.], [255]]
@@ -162,14 +162,10 @@ class CarInterface(CarInterfaceBase):
 
     if candidate in ACC_CAR:
       ret.longitudinalTuning.kiBP = [5, 7, 28]
-      ret.longitudinalTuning.kiV = [0.15, 0.12, 0.06]
-
-      if candidate == CAR.ALZA:
-        ret.longitudinalTuning.kiBP = [0.]
-        ret.longitudinalTuning.kiV = [0.1]
+      ret.longitudinalTuning.kiV = [0.0, 0.0, 0.0]
 
       ret.minEnableSpeed = -1
-      ret.steerActuatorDelay = 0.30           # Steering wheel actuator delay in seconds
+      ret.steerActuatorDelay = 0.35           # Steering wheel actuator delay in seconds
       ret.enableBsm = True
       ret.stoppingDecelRate = 0.05 # reach stopping target smoothly
     else:

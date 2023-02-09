@@ -231,6 +231,7 @@ class CarState(CarStateBase):
       ret.cruiseState.speed *= 1.04
     if self.CP.carFingerprint in ACC_CAR:
       ret.cruiseState.standstill = bool(cp.vl["ACC_BRAKE"]["CRUISE_STANDSTILL"]) # only applicable to Alza
+      ret.cruiseState.standstill = False # only applicable to Alza
     ret.cruiseState.nonAdaptive = False
     ret.cruiseState.enabled = self.is_cruise_latch
     if not ret.cruiseState.available:
