@@ -91,7 +91,7 @@ class CarState(CarStateBase):
     elif self.CP.carFingerprint in ACC_CAR:
       ret.brakePressed = bool(cp.vl["BRAKE"]['BRAKE_ENGAGED'])
     else:
-      ret.brakePressed = ret.brake > 1e-5
+      ret.brakePressed = ret.brake > 1.2
 
     # steer
     if self.CP.carFingerprint in ACC_CAR:
